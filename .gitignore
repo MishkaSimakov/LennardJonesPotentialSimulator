@@ -1,0 +1,8 @@
+.idea
+cmake-build-debug
+cmake-build-release
+images_water_body
+images_water
+log.txt
+images.zip
+.DS_Store
