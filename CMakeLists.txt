@@ -4,7 +4,9 @@ project(PhysicsSimulation)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_FLAGS -Ofast)
 
-add_executable(PhysicsSimulation main.cpp Window.h Atom.h World.h Logger.h progressbar.h ImageDrawer.h)
+include_directories(src)
+
+add_executable(PhysicsSimulation src/main.cpp src/Drawers/WindowDrawer.h src/Atom.h src/World.h src/Loggers/FileLogger.h src/Helpers/progressbar.h src/Drawers/ImageDrawer.h src/Simulation.h src/Drawers/Drawer.h src/Loggers/Logger.h src/Loggers/TerminalLogger.h src/Helpers/LennardJones.h src/Helpers/InteractionInfo.h src/Helpers/WorldData.h src/Helpers/RungeKutta.h)
 
 # include SFML
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake_modules")
@@ -22,4 +24,4 @@ file(COPY ${BINARY_DEP_DLLS} DESTINATION ${CMAKE_BINARY_DIR})
 #target_link_libraries(PhysicsSimulation OpenCL::OpenCL)
 
 # Copy resources to build
-file(COPY fonts physics.cl DESTINATION ${CMAKE_BINARY_DIR})
+file(COPY fonts images DESTINATION ${CMAKE_BINARY_DIR})

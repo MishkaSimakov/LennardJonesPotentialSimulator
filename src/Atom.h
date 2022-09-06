@@ -21,13 +21,9 @@ public:
 
     double mass{1.};
 
-    AtomType type {AtomType::WATER};
-
+    AtomType type {AtomType::BODY};
 
     Atom() = default;
-
-    Atom(sf::Vector2d _position, double _mass, AtomType _type) :
-            position(_position), mass(_mass), type(_type) {}
 
     [[nodiscard]] double getAbsoluteSpeed() const {
         return std::sqrt(std::pow(speed.x, 2) + std::pow(speed.y, 2));

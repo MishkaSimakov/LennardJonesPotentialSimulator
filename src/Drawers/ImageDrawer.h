@@ -2,6 +2,7 @@
 #define PHYSICSSIMULATION_IMAGEDRAWER_H
 
 #include "Atom.h"
+#include "Drawer.h"
 
 #include <SFML/Graphics.hpp>
 #include <filesystem>
@@ -157,7 +158,7 @@ public:
     }
 };
 
-class ImageDrawer {
+class ImageDrawer: public Drawer {
 private:
     sf::Image m_image;
     sf::Vector2u m_size;
@@ -165,15 +166,17 @@ private:
 public:
     explicit ImageDrawer(const sf::Vector2u &size) : m_size(size) {}
 
-    void startDraw() {
+    void startDraw() override {
         m_image.create(m_size.x, m_size.y, sf::Color::White);
     };
 
-    void endDraw(const std::filesystem::path &path) {
+    void endDraw() override {
         m_image.saveToFile(path);
     }
 
-    void drawAtom(const Atom &atom, const sf::Vector2d &box_size, float radius = 5.f) {
+    void drawAtom(const Atom &atom, const sf::Vector2d &box_size) override {
+        float radius = 5.f;
+
         auto atom_pos = sf::Vector2f(
                 (float) (atom.position.x / box_size.x * (float) m_size.x),
                 (float) (atom.position.y / box_size.y * (float) m_size.y)
