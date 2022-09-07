@@ -10,7 +10,7 @@ public:
 
     virtual void drawAtom(const Atom &atom, const sf::Vector2d &box_size) = 0;
 
-    virtual void endDraw() = 0;
+    virtual void endDraw(int iteration) = 0;
 
     [[nodiscard]] virtual bool wantsToClose() const = 0;
 

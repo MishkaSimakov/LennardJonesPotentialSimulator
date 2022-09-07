@@ -9,15 +9,15 @@
 #include "World.h"
 
 template<class T, class U>
-concept Derived = std::is_base_of<U, T>::value;
+concept Derived = std::is_base_of_v<U, T>;
 
 class Simulation {
 private:
     std::unique_ptr<Drawer> m_drawer;
-    std::unique_ptr<Logger> m_logger;
+    std::vector<std::unique_ptr<Logger>> m_loggers;
     World m_world;
 
-    const int m_iterations_per_frame{100};
+    const int m_iterations_per_frame{1000};
 
     int m_iteration{0};
 public:
@@ -31,12 +31,18 @@ public:
     }
 
     template<Derived<Logger> T, class... Args>
-    void setLogger(Args... args) {
-        m_logger = std::make_unique<T>(args...);
+    void addLogger(Args... args) {
+        m_loggers.push_back(
+                std::make_unique<T>(args...)
+        );
     }
 
     WorldData &getWorldData() {
         return m_world.getWorldData();
+    }
+
+    World &getWorld() {
+        return m_world;
     }
 
     void makeSimulationStep() {
@@ -47,14 +53,14 @@ public:
     }
 
     void writeToLog() {
-        m_logger->log(m_world, m_iteration);
+        for (auto &logger: m_loggers) {
+            logger->log(m_world, m_iteration);
+        }
     }
 
     void drawWorld() {
-        if (!m_drawer) {
-            std::cout << "Drawer is not set";
+        if (!m_drawer)
             return;
-        }
 
         m_drawer->startDraw();
 
@@ -62,12 +68,27 @@ public:
             m_drawer->drawAtom(atom, m_world.getWorldData().getBoxSize());
         }
 
-        m_drawer->endDraw();
+        m_drawer->endDraw(m_iteration);
     }
 
     void startSimulation() {
         while (!m_drawer || !m_drawer->wantsToClose()) {
             makeSimulationStep();
+
+            writeToLog();
+
+            drawWorld();
+        }
+    }
+
+    void startSimulationForIterationsCount(int iterations_count) {
+        for (m_iteration = 0; m_iteration < iterations_count;) {
+            if (m_drawer && m_drawer->wantsToClose())
+                break;
+
+            makeSimulationStep();
+
+
 
             writeToLog();
 

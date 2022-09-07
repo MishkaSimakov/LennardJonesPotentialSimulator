@@ -2,15 +2,22 @@
 #define PHYSICSSIMULATION_TERMINALLOGGER_H
 
 #include <iostream>
+#include <iomanip>
 
 #include "Logger.h"
 
-class TerminalLogger: public Logger {
+class TerminalLogger : public Logger {
+protected:
+    double m_energy;
 public:
-    void log(const World &world, int iteration) override {
-        auto position = world.getAtoms()[0].position;
+    explicit TerminalLogger(double energy) : m_energy(energy) {}
 
-        std::cout << position.x << " " << position.y << std::endl;
+    void log(const World &world, int iteration) override {
+        double current_energy = world.getTotalEnergy();
+
+        std::cout << std::setprecision(9) << iteration << ": "
+                  << "energy: " << current_energy
+                  << "; delta (%): " << (current_energy - m_energy) / m_energy * 100 << std::endl;
     }
 };
 

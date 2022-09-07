@@ -18,7 +18,7 @@ private:
             {{AtomType::BODY,  AtomType::BODY},  InteractionInfo(48, 1000)},
     };
 
-    sf::Vector2d m_box_size;
+    sf::Vector2d m_box_size{1000, 1000};
 public:
     [[nodiscard]] int getIterationsPerImpulseMeasurements() const {
         return iterations_per_impulse_measurements;

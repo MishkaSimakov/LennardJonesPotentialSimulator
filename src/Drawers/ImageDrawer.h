@@ -158,7 +158,7 @@ public:
     }
 };
 
-class ImageDrawer: public Drawer {
+class ImageDrawer : public Drawer {
 private:
     sf::Image m_image;
     sf::Vector2u m_size;
@@ -170,16 +170,16 @@ public:
         m_image.create(m_size.x, m_size.y, sf::Color::White);
     };
 
-    void endDraw() override {
-        m_image.saveToFile(path);
+    void endDraw(int iteration) override {
+        m_image.saveToFile("../images/" + std::to_string(iteration) + ".jpg");
     }
 
     void drawAtom(const Atom &atom, const sf::Vector2d &box_size) override {
         float radius = 5.f;
 
         auto atom_pos = sf::Vector2f(
-                (float) (atom.position.x / box_size.x * (float) m_size.x),
-                (float) (atom.position.y / box_size.y * (float) m_size.y)
+                250 + (float) (atom.position.x / box_size.x * (float) m_size.x),
+                500 + (float) (atom.position.y / box_size.y * (float) m_size.y)
         );
 
         Circle atom_shape;
@@ -188,14 +188,15 @@ public:
         atom_shape.setOrigin(radius, radius);
         atom_shape.setPosition(atom_pos);
 
-        std::map<AtomType, sf::Color> colors = {
-                {AtomType::WATER, sf::Color(212, 241, 249)},
-                {AtomType::BODY, sf::Color(93, 93, 93)},
-        };
-
-        atom_shape.setFillColor(colors[atom.type]);
+        atom_shape.setFillColor(
+                sf::Color((int) std::clamp(atom.getAbsoluteSpeed() * 5, 0., 255.), 0, 0)
+        );
 
         atom_shape.draw(m_image);
+    }
+
+    [[nodiscard]] bool wantsToClose() const override {
+        return false;
     }
 
     void drawMovingWall(double moving_wall_y, const sf::Vector2d &box_size) {

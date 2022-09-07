@@ -16,7 +16,7 @@ public:
     explicit FileLogger(std::filesystem::path path) : m_path(std::move(path)) {
         m_ofstream.open(m_path, std::ios_base::app);
 
-        m_ofstream << "Temperature, Pressure, Area, Atoms count\n";
+        m_ofstream << "Total energy:\n";
 
         m_ofstream.close();
     }
@@ -24,10 +24,7 @@ public:
     void log(const World &world, int iteration) override {
         m_ofstream.open(m_path, std::ios_base::app);
 
-        m_ofstream << world.getTemperature() << ", "
-                   << world.getPressure() << ", "
-                   << world.getArea() << ", "
-                   << world.getAtoms().size() << "\n";
+        m_ofstream << std::fixed << std::setprecision(9) << world.getTotalEnergy() << "\n";
 
         m_ofstream.close();
     }

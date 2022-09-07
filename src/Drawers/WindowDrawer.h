@@ -26,9 +26,9 @@ public:
             : m_window({width, height}, "Particles"),
               m_view() {
         m_view.setSize((float) width, (float) height);
-        m_view.setCenter(0, 0);
+        m_view.setCenter(250, 250);
 //        m_view.setRotation(180);
-        m_view.zoom(2);
+        m_view.zoom(1);
 
         m_window.setView(m_view);
 
@@ -46,7 +46,7 @@ public:
         m_dt = m_dt_clock.restart();
     };
 
-    void endDraw() override {
+    void endDraw(int iteration) override {
         m_window.display();
     }
 
