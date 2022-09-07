@@ -88,7 +88,7 @@ public:
         m_window.setView(m_view);
     }
 
-    void drawAtom(const Atom &atom, const sf::Vector2d &box_size) override {
+    void drawAtom(const Atom &atom) override {
         float radius = 5.f;
 
         sf::CircleShape atom_shape;
@@ -99,40 +99,6 @@ public:
         atom_shape.setFillColor(sf::Color((int) std::clamp(atom.getAbsoluteSpeed() * 5, 0., 255.), 0, 0));
 
         m_window.draw(atom_shape);
-    }
-
-    void drawMovingWall(double moving_wall_y, const sf::Vector2d &box_size) {
-        sf::RectangleShape moving_wall;
-
-        moving_wall.setFillColor(sf::Color::Red);
-        moving_wall.setSize({(float) box_size.x, 10.f});
-        moving_wall.setPosition(0, (float) moving_wall_y);
-
-        m_window.draw(moving_wall);
-    }
-
-    void drawBorders(const sf::Vector2d &box_size) {
-        sf::VertexArray borders(sf::LineStrip, 5);
-
-        borders[0] = sf::Vertex({0, 0}, sf::Color::Red);
-        borders[1] = sf::Vertex({0, (float) box_size.y}, sf::Color::Red);
-        borders[2] = sf::Vertex({(float) box_size.x, (float) box_size.y}, sf::Color::Red);
-        borders[3] = sf::Vertex({(float) box_size.x, 0}, sf::Color::Red);
-        borders[4] = borders[0];
-
-        m_window.draw(borders);
-    }
-
-    void drawCoordinateAxes() {
-        sf::VertexArray coordinateAxes(sf::Lines, 4);
-
-        coordinateAxes[0] = sf::Vertex({-1000, 0}, sf::Color::Black);
-        coordinateAxes[1] = sf::Vertex({1000, 0}, sf::Color::Black);
-
-        coordinateAxes[2] = sf::Vertex({0, -1000}, sf::Color::Black);
-        coordinateAxes[3] = sf::Vertex({0, 1000}, sf::Color::Black);
-
-        m_window.draw(coordinateAxes);
     }
 
     void addCallback(sf::Event::EventType event, std::function<void(const sf::Event &)> &&callback) {

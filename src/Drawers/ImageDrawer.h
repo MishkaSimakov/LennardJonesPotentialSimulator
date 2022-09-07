@@ -174,12 +174,12 @@ public:
         m_image.saveToFile("../images/" + std::to_string(iteration) + ".jpg");
     }
 
-    void drawAtom(const Atom &atom, const sf::Vector2d &box_size) override {
+    void drawAtom(const Atom &atom) override {
         float radius = 5.f;
 
         auto atom_pos = sf::Vector2f(
-                250 + (float) (atom.position.x / box_size.x * (float) m_size.x),
-                500 + (float) (atom.position.y / box_size.y * (float) m_size.y)
+                250 + (float) (atom.position.x / 1000. * (float) m_size.x),
+                500 + (float) (atom.position.y / 1000. * (float) m_size.y)
         );
 
         Circle atom_shape;

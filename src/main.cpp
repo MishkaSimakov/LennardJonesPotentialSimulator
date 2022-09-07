@@ -42,8 +42,6 @@ int main() {
 
         // world settings
         simulation.getWorldData().setTimeDelta(1. / pow(10, i));
-        simulation.getWorldData().setIsCollidingWithMovingWall(false);
-        simulation.getWorldData().setIsCollidingWithWalls(false);
         simulation.getWorldData().setIsGravityEnabled(false);
 
         std::cout << std::setprecision(9) << "Start energy: " << simulation.getWorld().getTotalEnergy() << std::endl;

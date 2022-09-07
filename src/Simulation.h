@@ -65,7 +65,7 @@ public:
         m_drawer->startDraw();
 
         for (auto &atom: m_world.getAtoms()) {
-            m_drawer->drawAtom(atom, m_world.getWorldData().getBoxSize());
+            m_drawer->drawAtom(atom);
         }
 
         m_drawer->endDraw(m_iteration);

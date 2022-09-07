@@ -8,7 +8,7 @@ class Drawer {
 public:
     virtual void startDraw() = 0;
 
-    virtual void drawAtom(const Atom &atom, const sf::Vector2d &box_size) = 0;
+    virtual void drawAtom(const Atom &atom) = 0;
 
     virtual void endDraw(int iteration) = 0;
 
